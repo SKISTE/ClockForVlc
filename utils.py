@@ -22,19 +22,19 @@ class Logger():
             open('log.txt','w',encoding='utf-8')
 
     def current_time(self):
-        return date.today()
+        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     def write(self,text):
         with open('log.txt','a',encoding='utf-8') as file:
             file.write('\n'+text)
 
     def info(self,text):
-        self.write(self.current_time+f':[INFO][{self.from_class}]'+text)
+        self.write(self.current_time()+f':[INFO][{str(self.from_class)}]'+str(text))
     def warn(self,text):
-        self.write(self.current_time+f':[WARN][{self.from_class}]'+text)
+        self.write(self.current_time()+f':[WARN][{str(self.from_class)}]'+str(text))
     def error(self,text):
         self.toaster.show_toast("Ошибка в будильнике", text, duration=10, threaded=True)
-        self.write(self.current_time+f':[ERROR][{self.from_class}]'+text)
+        self.write(self.current_time()+f':[ERROR][{str(self.from_class)}]'+str(text))
 
 
 class Controller:
@@ -88,6 +88,7 @@ class Controller:
         playlist_path = settings.Playlist_path
         alarm_type = settings.alarm_type
         volume = settings.Volume_value
+        self.logger.info(f'Start Clock_Play with sleep_delay: {str(sleep_delay)} | playlist_path:{str(playlist_path)} | alarm_type: {str(alarm_type)} | volume: {str(volume)}')
         while True:
             print('Clock_Play tick')
             turn_on = True
@@ -212,6 +213,7 @@ class ClockManager:
 class Settings:
     config = configparser.ConfigParser()
     config.read("settings.ini")
+    VERSION = '1.0'
     auth_code = config["Settings"]["Auth_code"]
     sleep_delay = config["Settings"]["Sleep_delay"]
     Volume_value = config["Settings"]["Volume_value"]

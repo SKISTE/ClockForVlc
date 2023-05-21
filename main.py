@@ -4,7 +4,7 @@ import utils
 app = Flask(__name__)
 
 Settings = utils.Settings()
-
+logger = utils.Logger('Flask')
 
 Controller = utils.Controller(Settings.auth_code)
 ClockManager = utils.ClockManager()
@@ -15,21 +15,22 @@ Thread(target=Controller.Clock_Play,args=(Settings,)).start()
 exc = ''
 @app.route('/')
 def load_main_page():
+    logger.info('route /')
     return redirect(url_for('main'))
 
 @app.route('/main')
 def main():
     global exc
     temp = exc
-    print(exc)
     exc = ''
-    print(temp)
+    logger.info('route /main with exc:'+exc)
     return render_template('index.html',alarms=ClockManager.list(), exceptions=temp)
 
 
 @app.route('/create_alarm', methods=['POST'])
 def create_alarm():
     global exc
+    logger.info('route /create_alarm')
     name, time = request.form['name'], request.form['time']
     days = []
     try:
@@ -69,16 +70,20 @@ def create_alarm():
         print(str(e))
     if name == '':
         exc = 'Не введено название'
+        logger.warn('route /create_alarm exc: no_name')
         return redirect(url_for('main'))
     if time == '':
         exc = 'Не введено время'
+        logger.warn('route /create_alarm exc: no_time')
         return redirect(url_for('main'))
     if days == []:
         exc = 'Не выбрано ни дня'
+        logger.warn('route /create_alarm exc: no_day')
         return redirect(url_for('main'))
     for x in ClockManager.list():
         if name == x['name']:
             exc = 'Такое название уже имеется'
+            logger.warn('route /create_alarm exc: already_have_name')
             return redirect(url_for('main'))
     ClockManager.add_clock_to_json(utils.OneClock({'name':name,'days':days,'hour':time.split(':')[0],'min':time.split(':')[1]}))
     print(request.form)
@@ -86,6 +91,7 @@ def create_alarm():
 
 @app.route('/delete_alarm', methods=['POST'])
 def delete_alarm():
+    logger.info('route /delete_alarm')
     name = request.form['name']
     for x in ClockManager.list():
         if name == x['name']:

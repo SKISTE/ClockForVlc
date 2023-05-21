@@ -1,0 +1,95 @@
+:root{
+    --html_bg:#0e1117;
+    --gray:#262730;
+    --red:#ff4a4c;
+}
+body{
+    color:white;
+    background: var(--html_bg);
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+}
+*{
+    /* font-size: 1.2em; */
+}
+input[type='checkbox']{
+    transform: scale(1.5);
+    cursor: pointer;
+}
+
+input[type='button'],input[type='submit']{
+    padding: 5px;
+    outline: none;
+    border: none;
+    background: var(--red);
+    color: white;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: .4s;
+}
+input[type='button']:hover,input[type='submit']:hover{
+    background: white;
+    color: var(--red);
+    transition: .4s;
+}
+#exception{
+    width: 90%;
+    max-height: 200px;
+    height: 200px;
+    background: rgba(209, 57, 57, 0.2);
+    border: rgba(209, 57, 57, 0.5) 2px solid;
+    padding: 5px;
+    animation: remove_exc 5s ease-in-out forwards;
+}
+@keyframes remove_exc {
+    0%,100%{
+        opacity: 0;
+        height: 0%;
+    }
+    50%{
+        opacity: 1;
+        height: 100%;
+    }
+}
+.checkboxes_for_days{
+    display: flex;
+    margin-top: 20px;
+}
+.checkboxes_for_days .one_day{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+.checkboxes_for_days .one_day span{
+    text-align: center;
+}
+.alarms_all{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    grid-auto-flow: dense;
+}
+.alarms_all .one_alarm{
+    padding: 20px;
+    border: var(--gray) 2px solid;
+    text-align: center;
+    box-sizing: border-box;
+}
+.alarms_all .one_alarm .name{
+    font-size: 1.3em;
+    font-weight: bold;
+}
+.alarms_all .one_alarm .time{
+    font-size: 1.2em;
+}
+.alarms_all .one_alarm .days{
+    font-size: 1.1em;
+    color: #b7b7b7;
+}
+/* .alarms_all .one_alarm input{
+
+} */
+#settings{
+    
+}
